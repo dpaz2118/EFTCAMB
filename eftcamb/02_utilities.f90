@@ -25,6 +25,7 @@
 module EFTCAMB_mixed_algorithms
 
     use precision
+    use, intrinsic :: iso_fortran_env, only: int64
 
     implicit none
 
@@ -40,7 +41,8 @@ module EFTCAMB_mixed_algorithms
     end type string
 
     ! real number that gets represented as a Nan:
-    real(dl), parameter :: double_NaN = TRANSFER((/ Z'00000000', Z'7FF80000' /),1.0_8) !< there are situations where we need to initialize a variable to Nan...
+    integer(int64), parameter :: nan_bits = int(Z'7FF8000000000000', int64)
+    real(dl),       parameter :: double_NaN = transfer(nan_bits, 0.0_dl) !< there are situations where we need to initialize a variable to Nan...
 
 contains
 
